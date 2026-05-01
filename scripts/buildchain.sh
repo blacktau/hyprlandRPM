@@ -4,7 +4,7 @@
 # can see the previously built RPMs without manual --addrepo wiring.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRPMDIR="/tmp/hyprland-srpm"
 RESULTDIR="/tmp/hyprland-mock"
 CHROOT="fedora-44-x86_64"
