@@ -1,8 +1,8 @@
-%global hyprland_commit ff50dc36e912b6ad764802d51be838bc7f6ed323
+%global hyprland_commit 521ece463c4a9d3d128670688a34756805a4328f
 %global hyprland_shortcommit %(c=%{hyprland_commit}; echo ${c:0:7})
-%global bumpver 58
-%global commits_count 6545
-%global commit_date Wed Oct 29 00:53:42 2025
+%global bumpver 0
+%global commits_count 7014
+%global commit_date Fri May 01 02:40:11 2026
 
 %global protocols_commit 3a5c2bda1c1a4e55cc1330c782547695a93f05b2
 %global protocols_shortcommit %(c=%{protocols_commit}; echo ${c:0:7})
@@ -13,7 +13,7 @@
 %global libxkbcommon_version 1.11.0
 
 Name:           hyprland-git
-Version:        0.51.1%{?bumpver:^%{bumpver}.git%{hyprland_shortcommit}}
+Version:        0.54.3%{?bumpver:^%{bumpver}.git%{hyprland_shortcommit}}
 Release:        %autorelease
 Summary:        Dynamic tiling Wayland compositor that doesn't sacrifice on its looks
 
@@ -123,11 +123,11 @@ Provides:       bundled(libxkbcommon) = %{libxkbcommon_version}
 %endif
 
 Requires:       xorg-x11-server-Xwayland%{?_isa}
-Requires:       aquamarine%{?_isa} >= 0.9.2
+Requires:       aquamarine%{?_isa} >= 0.9.3
 Requires:       hyprcursor%{?_isa} >= 0.1.13
 Requires:       hyprgraphics%{?_isa} >= 0.1.6
-Requires:       hyprlang%{?_isa} >= 0.6.3
-Requires:       hyprutils%{?_isa} >= 0.8.4
+Requires:       hyprlang%{?_isa} >= 0.6.7
+Requires:       hyprutils%{?_isa} >= 0.11.0
 
 %{lua:do
 if string.match(rpm.expand('%{name}'), '%-git$') then
