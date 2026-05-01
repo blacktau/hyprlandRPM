@@ -1,0 +1,21 @@
+From 7c41a2729335e146cea4bdd8843aea0e5c146aba Mon Sep 17 00:00:00 2001
+From: Stephen Degler <stephen@degler.net>
+Date: Sat, 24 Jan 2026 15:06:02 -0500
+Subject: [PATCH] internal: fix build with rawhide g++. (#39)
+
+---
+ src/palette/ConfigManager.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/palette/ConfigManager.cpp b/src/palette/ConfigManager.cpp
+index 2d46413..a8eaa9d 100644
+--- a/src/palette/ConfigManager.cpp
++++ b/src/palette/ConfigManager.cpp
+@@ -8,6 +8,7 @@
+ #include <glob.h>
+ #include <filesystem>
+ #include <cstring>
++#include <climits>
+ 
+ using namespace Hyprtoolkit;
+ 

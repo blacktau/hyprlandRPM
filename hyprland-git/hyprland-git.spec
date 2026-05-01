@@ -1,6 +1,6 @@
 %global hyprland_commit 521ece463c4a9d3d128670688a34756805a4328f
 %global hyprland_shortcommit %(c=%{hyprland_commit}; echo ${c:0:7})
-%global bumpver 0
+%global bumpver 1
 %global commits_count 7014
 %global commit_date Fri May 01 02:40:11 2026
 
@@ -54,12 +54,14 @@ hyprdeps = {
     "pkgconfig(hyprlang)",
     "pkgconfig(hyprutils)",
     "pkgconfig(hyprwayland-scanner)",
+    "pkgconfig(hyprwire)",
     "pkgconfig(libdisplay-info)",
     "pkgconfig(libdrm)",
     "pkgconfig(libinput) >= 1.28",
     "pkgconfig(libliftoff)",
     "pkgconfig(libseat)",
     "pkgconfig(libudev)",
+    "pkgconfig(muparser)",
     "pkgconfig(pango)",
     "pkgconfig(pangocairo)",
     "pkgconfig(pixman-1)",
@@ -257,12 +259,16 @@ source /usr/lib/gcc-toolset/15-env.source
 %cmake_install
 install -Dpm644 %{SOURCE4} -t %{buildroot}%{_rpmconfigdir}/macros.d
 
+# fix absolute symlink: /usr/bin/hyprland -> /usr/bin/Hyprland
+ln -sf Hyprland %{buildroot}%{_bindir}/hyprland
+
 
 %files
 %license LICENSE LICENSE-udis86 LICENSE-hyprland-protocols
 %{_bindir}/[Hh]yprland
 %{_bindir}/hyprctl
 %{_bindir}/hyprpm
+%{_bindir}/start-hyprland
 %{_datadir}/hypr/
 %{_datadir}/wayland-sessions/hyprland.desktop
 %{_datadir}/xdg-desktop-portal/hyprland-portals.conf

@@ -12,8 +12,11 @@ ExcludeArch:    %{ix86}
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
+BuildRequires:  mesa-libGLES-devel
 
 BuildRequires:  pkgconfig(cairo)
+BuildRequires:  pkgconfig(glesv2)
+BuildRequires:  pkgconfig(libdrm)
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(libjpeg)
 %if 0%{?fedora} >= 41
