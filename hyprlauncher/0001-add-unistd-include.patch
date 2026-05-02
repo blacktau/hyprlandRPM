@@ -1,0 +1,36 @@
+From 5fc57350e74a8150a708890feb8baf4e4be07598 Mon Sep 17 00:00:00 2001
+From: Hiroki Tagato <tagattie@gmail.com>
+Date: Tue, 6 Jan 2026 00:41:49 +0900
+Subject: [PATCH] core: add missing #include <unistd.h> (#114)
+
+FreeBSD clang fails to compile code with it. It is required by read().
+---
+ src/config/ConfigManager.cpp          | 2 ++
+ src/finders/desktop/DesktopFinder.cpp | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/src/config/ConfigManager.cpp b/src/config/ConfigManager.cpp
+index 6f2fa51..f94ae11 100644
+--- a/src/config/ConfigManager.cpp
++++ b/src/config/ConfigManager.cpp
+@@ -2,6 +2,8 @@
+ 
+ #include "../helpers/Log.hpp"
+ 
++#include <unistd.h>
++
+ #include <hyprutils/path/Path.hpp>
+ 
+ CConfigManager::CConfigManager() : m_inotifyFd(inotify_init()) {
+diff --git a/src/finders/desktop/DesktopFinder.cpp b/src/finders/desktop/DesktopFinder.cpp
+index 9bdfb8d..2d721a4 100644
+--- a/src/finders/desktop/DesktopFinder.cpp
++++ b/src/finders/desktop/DesktopFinder.cpp
+@@ -9,6 +9,7 @@
+ #include <fstream>
+ #include <sys/inotify.h>
+ #include <sys/poll.h>
++#include <unistd.h>
+ #include <unordered_set>
+ 
+ #include <hyprutils/string/String.hpp>

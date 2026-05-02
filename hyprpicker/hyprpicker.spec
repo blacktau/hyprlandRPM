@@ -8,6 +8,10 @@ License:        BSD-3-Clause AND HPND-sell-variant
 URL:            https://github.com/hyprwm/hyprpicker
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
+# Backport: include <mutex> for stricter compilers (GCC 15).
+# Upstream commit 089dd8a4 (post-v0.4.6).
+Patch0:         0001-include-mutex.patch
+
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 

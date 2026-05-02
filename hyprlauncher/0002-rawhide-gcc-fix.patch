@@ -1,0 +1,28 @@
+From 47b89954d02ca8611e4ca78e00e501c99fc49d5d Mon Sep 17 00:00:00 2001
+From: Stephen Degler <stephen@degler.net>
+Date: Thu, 5 Feb 2026 13:09:23 -0500
+Subject: [PATCH] internal: compiler fix for rawhide gcc (#125)
+
+* Misc include additions for rawhide gcc.
+
+* Revert "Misc include additions for rawhide gcc."
+
+This reverts commit fc3c0701052cc6a2fb91660d320ea7981708bebd.
+
+* Include <climits> to get NAME_MAX defined in latest gcc.
+---
+ src/config/ConfigManager.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/config/ConfigManager.cpp b/src/config/ConfigManager.cpp
+index f94ae11..7344ef2 100644
+--- a/src/config/ConfigManager.cpp
++++ b/src/config/ConfigManager.cpp
+@@ -3,6 +3,7 @@
+ #include "../helpers/Log.hpp"
+ 
+ #include <unistd.h>
++#include <climits>
+ 
+ #include <hyprutils/path/Path.hpp>
+ 
