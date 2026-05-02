@@ -9,7 +9,6 @@
                 hyprbars
                 hyprexpo
                 hyprfocus
-                hyprtrails
                 hyprwinwrap
                 xtra-dispatchers
 }
