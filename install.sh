@@ -59,7 +59,6 @@ HYPRLAND_CORE=(
   uwsm
   mpvpaper
   waypaper
-  qt6ct-kde
 )
 
 # ---------- From Fedora main repos ----------
