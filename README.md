@@ -36,7 +36,6 @@ Hyprland core + ecosystem pieces not in Fedora main, or where Fedora ships too o
 * **[hyprland-autoname-workspaces](https://github.com/hyprland-community/hyprland-autoname-workspaces)** – Auto-rename workspaces with app icons.
 * **[hyprshot](https://github.com/Gustash/Hyprshot)** – Screenshot utility for Hyprland.
 * **[satty](https://github.com/gabm/Satty)** – Screenshot annotation tool.
-* **[hyprpanel](https://hyprpanel.com/)** – Customizable Bar/Panel for Hyprland.
 * **[eww-git](https://elkowar.github.io/eww/eww.html)** – Rust widget system (git snapshots).
 * **[nwg-clipman](https://github.com/nwg-piotr/nwg-clipman)** – GTK3 GUI for cliphist.
 * **[swww](https://github.com/Horus645/swww)** – Animated wallpaper daemon.
@@ -67,6 +66,15 @@ sudo dnf install \
 ```
 
 ## Prerequisites — install separately
+
+### hyprpanel — Bar/panel for Hyprland
+
+Removed from this fork: hard-requires `aylurs-gtk-shell2` (ags v2 / astal CLI), which is impractical to build via this COPR (vendored Go deps tarball not redistributable). Install upstream:
+
+```
+git clone https://github.com/Jas-SinghFSU/HyprPanel
+# follow README for build/install instructions
+```
 
 ### cliphist — Wayland clipboard manager
 

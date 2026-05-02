@@ -51,7 +51,6 @@ HYPRLAND_CORE=(
   hyprland-qtutils
   hyprpwcenter
   xdg-desktop-portal-hyprland
-  hyprpanel
   nwg-clipman
   swww
   swaylock-effects
