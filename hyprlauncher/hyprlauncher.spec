@@ -1,18 +1,11 @@
 Name:           hyprlauncher
-Version:        0.1.1
+Version:        0.1.6
 Release:        %autorelease
 Summary:        A multipurpose and versatile launcher / picker for Hyprland
 
 License:        BSD-3-Clause
 URL:            https://github.com/hyprwm/hyprlauncher
 Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
-
-# Backport: add missing <unistd.h> include (post-v0.1.1).
-# Upstream commit 5fc57350.
-Patch0:         0001-add-unistd-include.patch
-# Backport: misc compiler fixes for rawhide gcc (post-v0.1.1).
-# Upstream commit 47b89954.
-Patch1:         0002-rawhide-gcc-fix.patch
 
 # https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
 ExcludeArch:    %{ix86}
