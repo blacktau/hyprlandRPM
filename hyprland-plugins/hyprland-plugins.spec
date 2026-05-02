@@ -6,11 +6,9 @@
 
 %global plugins %{shrink:
                 borders-plus-plus
-                csgo-vulkan-fix
                 hyprbars
                 hyprexpo
                 hyprfocus
-                hyprscrolling
                 hyprtrails
                 hyprwinwrap
                 xtra-dispatchers
