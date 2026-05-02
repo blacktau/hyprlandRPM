@@ -69,6 +69,14 @@ Or grab a release binary: https://github.com/sentriz/cliphist/releases
 
 The `nwg-clipman` GUI (still built here) works against an upstream-installed `cliphist` binary.
 
+### kitty — terminal emulator
+
+Available in Fedora main repos (newer than was packaged here):
+
+```
+sudo dnf install kitty
+```
+
 ## Issues
 
 Open at: https://github.com/blacktau/hyprlandRPM/issues
