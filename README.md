@@ -1,8 +1,22 @@
-0.49.0 → last version for Fedora 41
+# blacktau/hyprland COPR
 
-0.51.0 → likely the last version for Fedora 42 (as of 2025-09-15, hyprland-git fails to build on F42)
+Fork of `solopasha/hyprland` rebuilt for Fedora 44+ against current upstream library versions (libdisplay-info 0.3, hyprgraphics 0.4, etc.).
 
-0.51.0+ → would require Fedora 43
+## Enable
+
+```
+sudo dnf copr enable blacktau/hyprland
+sudo dnf install hyprland
+```
+
+## Version notes
+
+- 0.49.0 → last version for Fedora 41
+- 0.51.0 → likely the last version for Fedora 42 (as of 2025-09-15, hyprland-git fails to build on F42)
+- 0.51.0+ → requires Fedora 43+
+- Current builds target Fedora 44
+
+## Packages
 
 A collection of Hyprland and related packages:
 
@@ -27,7 +41,6 @@ A collection of Hyprland and related packages:
 * **[hyprpanel](https://hyprpanel.com/)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/astal/hyprpanel/hyprpanel.spec) - A Bar/Panel for Hyprland with extensive customizability.
 * **[waybar-git](https://github.com/Alexays/Waybar)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/waybar-git/waybar-git.spec) – waybar git snapshots.
 * **[eww-git](https://elkowar.github.io/eww/eww.html)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/eww-git/eww-git.spec) – A widget system made in Rust (git snapshots).
-* **[cliphist](https://github.com/sentriz/cliphist)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/cliphist/cliphist.spec) – Wayland clipboard manager.
 * **[nwg-clipman](https://github.com/nwg-piotr/nwg-clipman)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/nwg-clipman/nwg-clipman.spec) - GTK3-based GUI for cliphist.
 * **[swww](https://github.com/Horus645/swww)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/swww/swww.spec) – Efficient animated wallpaper daemon for wayland, controlled at runtime.
 * **[waypaper](https://github.com/anufrievroman/waypaper)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/waypaper/waypaper.spec) - GUI wallpaper manager.
@@ -39,3 +52,23 @@ A collection of Hyprland and related packages:
 * **[uwsm](https://github.com/Vladimir-csp/uwsm)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/uwsm/uwsm.spec) - Universal Wayland Session Manager.
 * **[qt6ct-kde](https://github.com/ilya-fedin/qt6ct)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/qt6ct-kde/qt6ct.spec) - Qt6 Configuration Utility, patched for proper integration with KDE applications.
 * **[hyprqt6engine](https://github.com/hyprwm/hyprqt6engine)** [(spec)](https://github.com/blacktau/hyprlandRPM/blob/main/hyprqt6engine/hyprqt6engine.spec) - Qt6 Theme Provider for Hyprland.
+
+## Prerequisites (not built here)
+
+Some tools commonly used with Hyprland are not packaged in this COPR. Install separately.
+
+### cliphist — Wayland clipboard manager
+
+Removed from this fork because vendored Go dependencies (`vendor-*.tar.gz`) are not redistributable through the spec. Install via Go:
+
+```
+go install go.senan.xyz/cliphist@latest
+```
+
+Or grab a release binary: https://github.com/sentriz/cliphist/releases
+
+The `nwg-clipman` GUI (still built here) works against an upstream-installed `cliphist` binary.
+
+## Issues
+
+Open at: https://github.com/blacktau/hyprlandRPM/issues
