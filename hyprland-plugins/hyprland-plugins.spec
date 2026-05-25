@@ -1,16 +1,13 @@
-%global commit0 6acc0738f298f5efe40a99db2c12449112d65633
+%global commit0 90e66baf99c9025b1d5e9c9e58dd3c80d0911ea2
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global bumpver 1343
+%global bumpver 0
 
 %global __provides_exclude_from ^(%{_libdir}/hyprland/.*\\.so)$
 
 %global plugins %{shrink:
                 borders-plus-plus
                 hyprbars
-                hyprexpo
                 hyprfocus
-                hyprwinwrap
-                xtra-dispatchers
 }
 
 %if !%{defined build_for}
