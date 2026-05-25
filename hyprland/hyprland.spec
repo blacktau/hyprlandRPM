@@ -235,6 +235,13 @@ install -Dpm644 %{SOURCE4} -t %{buildroot}%{_rpmconfigdir}/macros.d
 # fix absolute symlink: /usr/bin/hyprland -> /usr/bin/Hyprland
 ln -sf Hyprland %{buildroot}%{_bindir}/hyprland
 
+# hyprland public headers transitively include <lua.h>, but upstream
+# hyprland.pc does not declare a lua dep. Patch it so downstream
+# plugin builds (and any other consumer) pick up the lua5.5 include
+# path automatically.
+sed -i 's/^\(Requires: .*\)$/\1, lua5.5/' \
+    %{buildroot}%{_datadir}/pkgconfig/hyprland.pc
+
 
 %files
 %license LICENSE LICENSE-udis86 LICENSE-hyprland-protocols

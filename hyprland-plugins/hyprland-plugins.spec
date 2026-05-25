@@ -39,6 +39,8 @@ Source:         %{url}/archive/%{commit0}/%{name}-%{commit0}.tar.gz
 BuildRequires:  gcc-c++
 BuildRequires:  meson
 BuildRequires:  %{hyprlandpkg}-devel
+# hyprland public headers (LuaBindings.hpp) transitively include <lua.h>
+BuildRequires:  pkgconfig(lua5.5)
 
 Requires:       %{hyprlandpkg} = %_hyprland_version
 
