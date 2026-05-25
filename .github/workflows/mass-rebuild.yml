@@ -1,0 +1,142 @@
+name: Mass rebuild
+
+# Rebuild all COPR packages on a schedule so the COPR keeps up with
+# Fedora ABI changes (libxkbcommon/wayland/mesa/gcc soname bumps,
+# mass rebuilds, etc) without waiting for an upstream version bump.
+#
+# Builds proceed in dependency tiers: each tier dispatches in parallel,
+# but a tier only starts once the previous tier finishes successfully.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: 'Comma-separated package names to rebuild (skips tier ordering; default: all in tier order)'
+        required: false
+        default: ''
+  schedule:
+    - cron: '0 4 * * 0'  # Sun 04:00 UTC
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    container:
+      image: 'registry.fedoraproject.org/fedora-minimal:latest'
+
+    steps:
+      - name: Prepare
+        run: |
+          dnf -y install --nodocs --setopt=install_weak_deps=0 \
+            git-core copr-cli
+
+      - uses: actions/checkout@v4
+
+      - name: Configure copr-cli
+        env:
+          COPR_CONFIG: ${{ secrets.COPR_CONFIG }}
+        run: |
+          mkdir -p ~/.config
+          printf '%s\n' "$COPR_CONFIG" > ~/.config/copr
+          chmod 600 ~/.config/copr
+
+      - name: Rebuild packages in dependency tiers
+        env:
+          PROJECT: blacktau/hyprland
+          ONLY: ${{ github.event.inputs.only }}
+        shell: bash
+        run: |
+          set -eu
+
+          # ---- dependency tiers ----
+          # Each tier waits for the previous tier to finish.
+          # Inside a tier, packages build in parallel.
+          #
+          # Edit these arrays when adding/removing packages.
+          # Anything not listed runs in the final "independent" tier.
+
+          tier0=(lua5.5 hyprwayland-scanner hyprutils hyprlang hyprland-protocols)
+          tier1=(hyprcursor hyprgraphics aquamarine glaze)
+          tier2=(hyprland hyprland-qt-support astal-io)
+          tier3=(hyprland-plugins xdg-desktop-portal-hyprland hyprland-qtutils
+                 hyprland-contrib hyprqt6engine astal astal-libs)
+          tier4=(hyprdim hyprwire hyprland-autoname-workspaces hyprpwcenter
+                 hyprtoolkit astal-gtk4 astal-gjs astal-lua)
+
+          # Final tier: everything else (independent tools)
+          all_known=("${tier0[@]}" "${tier1[@]}" "${tier2[@]}" "${tier3[@]}" "${tier4[@]}")
+          declare -A known
+          for p in "${all_known[@]}"; do known[$p]=1; done
+
+          if [ -n "$ONLY" ]; then
+            # Manual override: build only listed pkgs, no tier ordering
+            mapfile -t only_pkgs < <(echo "$ONLY" | tr ',' '\n' | sed 's/[[:space:]]//g' | grep -v '^$')
+            tier0=("${only_pkgs[@]}"); tier1=(); tier2=(); tier3=(); tier4=(); tier5=()
+          else
+            # Discover everything in repo, derive tier5
+            shopt -s nullglob
+            tier5=()
+            while IFS= read -r p; do
+              [ -n "${known[$p]:-}" ] || tier5+=("$p")
+            done < <(
+              for d in */; do
+                n=${d%/}
+                [ -f "$d$n.spec" ] && echo "$n"
+                for s in "$d"*/; do
+                  sn=${s#$d}; sn=${sn%/}
+                  [ -f "$s$sn.spec" ] && echo "$sn"
+                done
+              done | sort -u
+            )
+          fi
+
+          # ---- helpers ----
+          # Dispatch a tier in parallel, collect build IDs, then watch all.
+          build_tier() {
+            local tier_name=$1; shift
+            local pkgs=("$@")
+            [ ${#pkgs[@]} -eq 0 ] && { echo "::group::$tier_name (empty)"; echo "skip"; echo "::endgroup::"; return 0; }
+
+            echo "::group::$tier_name dispatch"
+            local ids=()
+            for pkg in "${pkgs[@]}"; do
+              local out
+              if ! out=$(copr-cli build-package --name "$pkg" --nowait --background "$PROJECT" 2>&1); then
+                echo "::error::failed to enqueue $pkg: $out"
+                continue
+              fi
+              # build-package --nowait prints: "Created builds: 1234567"
+              local id
+              id=$(echo "$out" | sed -nE 's/^Created builds?: ([0-9]+).*/\1/p' | head -1)
+              if [ -z "$id" ]; then
+                echo "::warning::could not parse build id for $pkg from: $out"
+                continue
+              fi
+              echo "  $pkg -> build $id"
+              ids+=("$id")
+            done
+            echo "::endgroup::"
+
+            [ ${#ids[@]} -eq 0 ] && { echo "::error::$tier_name produced no builds"; return 1; }
+
+            echo "::group::$tier_name watch"
+            local rc=0
+            for id in "${ids[@]}"; do
+              if ! copr-cli watch-build "$id"; then
+                echo "::error::build $id failed in $tier_name"
+                rc=1
+              fi
+            done
+            echo "::endgroup::"
+            return $rc
+          }
+
+          # ---- run tiers sequentially ----
+          overall=0
+          for tier in tier0 tier1 tier2 tier3 tier4 tier5; do
+            declare -n arr=$tier
+            if ! build_tier "$tier" "${arr[@]}"; then
+              overall=1
+              echo "::warning::$tier had failures — continuing to next tier"
+            fi
+          done
+          exit $overall
