@@ -1,7 +1,7 @@
 %global libxkbcommon_version 1.11.0
 
 Name:           hyprland
-Version:        0.54.3
+Version:        0.55.2
 Release:        %autorelease
 Summary:        Dynamic tiling Wayland compositor that doesn't sacrifice on its looks
 
@@ -42,6 +42,7 @@ hyprdeps = {
     "pkgconfig(libinput) >= 1.28",
     "pkgconfig(libliftoff)",
     "pkgconfig(libseat)",
+    "pkgconfig(lua5.5)",
     "pkgconfig(libudev)",
     "pkgconfig(muparser)",
     "pkgconfig(pango)",
@@ -109,9 +110,9 @@ Provides:       bundled(libxkbcommon) = %{libxkbcommon_version}
 Requires:       xorg-x11-server-Xwayland%{?_isa}
 Requires:       aquamarine%{?_isa} >= 0.9.3
 Requires:       hyprcursor%{?_isa} >= 0.1.13
-Requires:       hyprgraphics%{?_isa} >= 0.1.6
+Requires:       hyprgraphics%{?_isa} >= 0.5.1
 Requires:       hyprlang%{?_isa} >= 0.6.7
-Requires:       hyprutils%{?_isa} >= 0.11.0
+Requires:       hyprutils%{?_isa} >= 0.13.1
 
 %{lua:do
 if string.match(rpm.expand('%{name}'), '%-git$') then
