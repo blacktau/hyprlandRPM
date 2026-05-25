@@ -1,0 +1,17 @@
+V=5.5
+R=@VERSION@
+
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/@LIBDIR@
+includedir=${prefix}/include/lua5.5
+bindir=${exec_prefix}/bin
+INSTALL_LMOD=${prefix}/share/lua/${V}
+INSTALL_CMOD=${libdir}/lua/${V}
+
+Name: Lua
+Description: An Extensible Extension Language
+Version: ${R}
+Requires:
+Libs: -L${libdir} -llua-${V} -lm
+Cflags: -I${includedir}
