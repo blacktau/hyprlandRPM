@@ -24,8 +24,16 @@ jobs:
       - name: Run updaters
         env:
           COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
+          COPR_CONFIG: ${{ secrets.COPR_CONFIG }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # hyprland/update.sh drives an ordered COPR rebuild (hyprland ->
+          # hyprland-plugins) via copr-cli when this token is present.
+          if [ -n "${COPR_CONFIG:-}" ]; then
+            mkdir -p ~/.config
+            printf '%s\n' "$COPR_CONFIG" > ~/.config/copr
+            chmod 600 ~/.config/copr
+          fi
           find -name "update.sh" -execdir {} \;
