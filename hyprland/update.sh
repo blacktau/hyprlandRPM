@@ -56,11 +56,19 @@ build_and_watch() {
 # 1. hyprland (provides hyprland-devel = newVer)
 build_and_watch hyprland
 
-# 2. plugins: bump bumpver so the NVR changes (dnf sees an update even though
-#    the plugins upstream commit is unchanged), then rebuild against the new
-#    hyprland-devel that is now in the repo.
+# 2. plugins: advance to the plugins commit matching this hyprland release,
+#    then bump bumpver so the NVR changes, and rebuild against the new
+#    hyprland-devel now in the repo (so plugins re-pin `hyprland = newVer`).
+#
+#    hyprland-plugins/update.sh no longer chases main HEAD on its own because
+#    plugins main routinely runs ahead of the stable hyprland API. A new stable
+#    release is the point at which upstream plugins are expected to match, so
+#    we advance commit0 to plugins main HEAD HERE, gated on the release.
+pluginsCommit="$(curl -s -H "Accept: application/vnd.github.VERSION.sha" \
+                  https://api.github.com/repos/hyprwm/hyprland-plugins/commits/main)"
 ( cd "$PLUGINS_DIR" \
+  && sed -i "s/^\(%global commit0\) .*/\1 ${pluginsCommit}/" "$PLUGINS_SPEC" \
   && perl -pe 's/(?<=bumpver\s)(\d+)/$1 + 1/ge' -i "$PLUGINS_SPEC" )
-git commit -am "hyprland-plugins: rebuild for hyprland v${newVer}"
+git commit -am "hyprland-plugins: ${pluginsCommit:0:7} + rebuild for hyprland v${newVer}"
 git push
 build_and_watch hyprland-plugins
