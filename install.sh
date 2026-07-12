@@ -34,9 +34,7 @@ HYPRLAND_CORE=(
   hypridle
   hyprlock
   hyprsunset
-  hyprpaper
   hyprpicker
-  hyprshot
   hyprpolkitagent
   hyprsysteminfo
   hyprland-plugins
@@ -44,7 +42,6 @@ HYPRLAND_CORE=(
   hyprland-autoname-workspaces
   hyprdim
   hyprnome
-  hyprlauncher
   hyprtoolkit
   hyprwire
   hyprqt6engine
@@ -54,12 +51,7 @@ HYPRLAND_CORE=(
   xdg-desktop-portal-hyprland
   nwg-clipman
   awww
-  swaylock-effects
-  satty
-  eww-git
   uwsm
-  mpvpaper
-  waypaper
 )
 
 # ---------- From Fedora main repos ----------

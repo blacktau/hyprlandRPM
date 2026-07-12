@@ -17,13 +17,13 @@ declare -A SUBDIR=(
 
 PKGS=(
   appmenu-glib-translator aquamarine astal astal-gjs astal-gtk4 astal-io astal-libs astal-lua
-  aylurs-gtk-shell aylurs-gtk-shell2 cliphist eww-git glaze hellwal hyprcursor hyprdim hyprgraphics
+  aylurs-gtk-shell aylurs-gtk-shell2 cliphist glaze hellwal hyprcursor hyprdim hyprgraphics
   hypridle hyprland hyprland-autoname-workspaces hyprland-contrib hyprland-git hyprland-plugins
-  hyprland-plugins-git hyprland-protocols hyprland-qt-support hyprland-qtutils hyprlang hyprlauncher
-  hyprlock hyprnome hyprpanel hyprpaper hyprpicker hyprpolkitagent hyprpwcenter hyprqt6engine
-  hyprshot hyprsunset hyprsysteminfo hyprtoolkit hyprutils hyprwayland-scanner hyprwire
-  material-icons-fonts matugen mpvpaper nwg-clipman nwg-look pyprland python-imageio-ffmpeg
-  python-screeninfo satty swaylock-effects uwsm waybar-git waypaper xcur2png
+  hyprland-plugins-git hyprland-protocols hyprland-qt-support hyprland-qtutils hyprlang
+  hyprlock hyprnome hyprpanel hyprpicker hyprpolkitagent hyprpwcenter hyprqt6engine
+  hyprsunset hyprsysteminfo hyprtoolkit hyprutils hyprwayland-scanner hyprwire
+  material-icons-fonts matugen nwg-clipman nwg-look pyprland python-imageio-ffmpeg
+  python-screeninfo uwsm waybar-git xcur2png
   xdg-desktop-portal-hyprland
 )
 
