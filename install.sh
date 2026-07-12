@@ -13,6 +13,7 @@ fi
 COPR_REPOS=(
   blacktau/hyprland
   erikreider/SwayNotificationCenter
+  alebastr/sway-extras   # awww (maintained swww successor)
 )
 
 # ---------- RPM Fusion ----------
@@ -52,7 +53,7 @@ HYPRLAND_CORE=(
   hyprpwcenter
   xdg-desktop-portal-hyprland
   nwg-clipman
-  swww
+  awww
   swaylock-effects
   satty
   eww-git

@@ -11,7 +11,7 @@ BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  python3-devel
 
-Recommends:     swww
+Recommends:     awww
 
 %description
 GUI wallpaper setter for Wayland and Xorg window managers. It works as

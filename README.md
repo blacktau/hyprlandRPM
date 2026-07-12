@@ -38,7 +38,6 @@ Hyprland core + ecosystem pieces not in Fedora main, or where Fedora ships too o
 * **[satty](https://github.com/gabm/Satty)** – Screenshot annotation tool.
 * **[eww-git](https://elkowar.github.io/eww/eww.html)** – Rust widget system (git snapshots).
 * **[nwg-clipman](https://github.com/nwg-piotr/nwg-clipman)** – GTK3 GUI for cliphist.
-* **[swww](https://github.com/Horus645/swww)** – Animated wallpaper daemon.
 * **[waypaper](https://github.com/anufrievroman/waypaper)** – GUI wallpaper manager.
 * **[hyprnome](https://github.com/donovanglover/hyprnome)** – GNOME-like workspace switching.
 * **[hyprdim](https://github.com/donovanglover/hyprdim)** – Auto-dim inactive windows.

@@ -23,7 +23,7 @@ PKGS=(
   hyprlock hyprnome hyprpanel hyprpaper hyprpicker hyprpolkitagent hyprpwcenter hyprqt6engine
   hyprshot hyprsunset hyprsysteminfo hyprtoolkit hyprutils hyprwayland-scanner hyprwire
   material-icons-fonts matugen mpvpaper nwg-clipman nwg-look pyprland python-imageio-ffmpeg
-  python-screeninfo satty swaylock-effects swww uwsm waybar-git waypaper xcur2png
+  python-screeninfo satty swaylock-effects uwsm waybar-git waypaper xcur2png
   xdg-desktop-portal-hyprland
 )
 
