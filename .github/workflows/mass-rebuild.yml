@@ -131,12 +131,18 @@ jobs:
           }
 
           # ---- run tiers sequentially ----
+          # A failed tier stops the run: later tiers link against what a failed
+          # tier was supposed to publish, so building them anyway pins stale
+          # versions. That is how a failed hyprland 0.56.2 still let
+          # hyprland-plugins build in tier3 and pin `hyprland = 0.55.4`,
+          # breaking repoclosure once hyprland did land.
           overall=0
           for tier in tier0 tier1 tier2 tier3 tier4 tier5; do
             declare -n arr=$tier
             if ! build_tier "$tier" "${arr[@]}"; then
               overall=1
-              echo "::warning::$tier had failures — continuing to next tier"
+              echo "::error::$tier had failures — stopping; later tiers would build against stale deps"
+              break
             fi
           done
           exit $overall
