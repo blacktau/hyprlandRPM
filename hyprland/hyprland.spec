@@ -51,6 +51,7 @@ hyprdeps = {
     "pkgconfig(pango)",
     "pkgconfig(pangocairo)",
     "pkgconfig(pixman-1)",
+    "pkgconfig(readline)",
     "pkgconfig(re2)",
     "pkgconfig(systemd)",
     "pkgconfig(tomlplusplus)",
