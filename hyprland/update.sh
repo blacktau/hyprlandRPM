@@ -63,9 +63,29 @@ build_and_watch hyprland
 #    hyprland-plugins/update.sh no longer chases main HEAD on its own because
 #    plugins main routinely runs ahead of the stable hyprland API. A new stable
 #    release is the point at which upstream plugins are expected to match, so
-#    we advance commit0 to plugins main HEAD HERE, gated on the release.
-pluginsCommit="$(curl -s -H "Accept: application/vnd.github.VERSION.sha" \
-                  https://api.github.com/repos/hyprwm/hyprland-plugins/commits/main)"
+#    we advance commit0 HERE, gated on the release.
+#
+#    NOT main HEAD: upstream starts chasing the *next* hyprland within days of a
+#    tag. After v0.56.2 (2026-08-05) the very next plugins commit switched
+#    hyprbars to <hyprland/src/keybinds/Manager.hpp>, which exists only on
+#    hyprland main -- main HEAD failed to build against the release it was
+#    supposed to match. Take the newest plugins commit dated at or before the
+#    release instead; that is the last one written against the released API.
+#    The cutoff is the release + 24h, not the release instant: upstream lands
+#    housekeeping for the release just after the tag (00862ca, "hyprpm: add pin
+#    for 0.56.2", is 41 seconds later), while the next-version chases start a
+#    day or more out. If upstream ever chases faster than that, this build
+#    fails loudly and the pin gets corrected by hand -- same as any bad pin.
+relDate="$(curl -s https://api.github.com/repos/hyprwm/Hyprland/releases/latest \
+             | jq -r '.published_at')"
+cutoff="$(date -u -d "${relDate} + 1 day" +%Y-%m-%dT%H:%M:%SZ)"
+pluginsCommit="$(curl -s \
+                  "https://api.github.com/repos/hyprwm/hyprland-plugins/commits?until=${cutoff}&per_page=1" \
+                  | jq -r '.[0].sha')"
+[ -n "$pluginsCommit" ] && [ "$pluginsCommit" != null ] || {
+    echo "could not resolve a plugins commit at or before ${relDate}" >&2
+    exit 1
+}
 ( cd "$PLUGINS_DIR" \
   && sed -i "s/^\(%global commit0\) .*/\1 ${pluginsCommit}/" "$PLUGINS_SPEC" \
   && perl -pe 's/(?<=bumpver\s)(\d+)/$1 + 1/ge' -i "$PLUGINS_SPEC" )

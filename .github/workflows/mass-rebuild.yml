@@ -27,7 +27,7 @@ jobs:
       - name: Prepare
         run: |
           dnf -y install --nodocs --setopt=install_weak_deps=0 \
-            git-core copr-cli
+            git-core copr-cli jq
 
       - uses: actions/checkout@v4
 
@@ -146,3 +146,36 @@ jobs:
             fi
           done
           exit $overall
+
+      - name: Prune superseded builds
+        # Only after a full, clean rebuild: every package then has a fresh
+        # build, so deleting the older copies cannot remove the only good one.
+        if: ${{ success() && github.event.inputs.only == '' }}
+        env:
+          PROJECT: blacktau/hyprland
+        shell: bash
+        run: |
+          set -eu
+
+          # Most specs carry a fixed Release: (%autorelease, -bN), so every
+          # rebuild produces the SAME NVR and COPR keeps them all. An old copy
+          # can win in repodata and strand a superseded soname -- that is what
+          # broke repoclosure with libhyprutils.so.12 after the 0.14.0 bump,
+          # with six packages holding up to 15 identically-named builds.
+          # Keep the newest succeeded build per package, delete the rest.
+          ids="$(curl -s "https://copr.fedorainfracloud.org/api_3/build/list?ownername=${PROJECT%/*}&projectname=${PROJECT#*/}&limit=5000" \
+                 | jq -r '[.items[]
+                           | select(.state == "succeeded")
+                           | select(.source_package.name != null)]
+                          | group_by(.source_package.name)[]
+                          | sort_by(.id)
+                          | .[:-1][].id')"
+
+          if [ -z "$ids" ]; then
+            echo "nothing to prune"
+            exit 0
+          fi
+
+          echo "pruning $(echo "$ids" | wc -l) superseded builds"
+          echo "$ids" | xargs -r -n 20 copr-cli delete-build
+          copr-cli regenerate-repos "$PROJECT"
