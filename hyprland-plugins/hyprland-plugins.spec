@@ -4,9 +4,9 @@
 # which is NOT in any stable release yet, so they fail to compile here.
 # This commit is advanced by ../hyprland/update.sh when a new hyprland stable
 # release lands — NOT by hyprland-plugins/update.sh. See those scripts.
-%global commit0 8c3d2be04500d7567a70f02b5dc6e80017389785
+%global commit0 faf5ef1bd5916051ed3252463697dd2ae479f629
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global bumpver 1346
+%global bumpver 1347
 
 %global __provides_exclude_from ^(%{_libdir}/hyprland/.*\\.so)$
 
