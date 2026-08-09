@@ -27,9 +27,11 @@ cd "$(dirname "$0")/.."
 core_libs=" hyprutils hyprlang hyprcursor hyprgraphics aquamarine hyprwire
             hyprwayland-scanner hyprland-protocols glaze hyprtoolkit "
 
-# Never auto-bumped: glaze 8.x is a major bump under hyprland and
-# hyprsysteminfo -- verify it builds by hand before moving it.
-skip=" glaze "
+# Packages held to a major version because a consumer demands it. hyprland
+# does `find_package(glaze 7...<8)`, and on failure silently FetchContents
+# its own glaze v7.2.0 mid-build -- so 8.x must not land here. These track
+# the newest release within the pinned major instead of `releases/latest`.
+declare -A pin_major=( [glaze]=7 )
 
 bumped=()
 core_bumped=0
@@ -47,7 +49,6 @@ for spec in */*.spec astal/*/*.spec; do
     pkg="$(basename "$spec" .spec)"
 
     [ -f "$dir/update.sh" ] && continue
-    case "$skip" in *" $pkg "*) continue ;; esac
 
     cur="$(sed -n 's/^Version: *//p' "$spec" | head -1)"
     # Macro-driven versions (git snapshots, %{upstream_version}) aren't ours.
@@ -58,9 +59,17 @@ for spec in */*.spec astal/*/*.spec; do
 
     # Repos with tags but no GitHub *releases* 404 here (uwsm, screeninfo);
     # so do rate-limit blips. Both mean "skip this package this run".
-    tag="$(curl -sf "${auth[@]}" \
-             "https://api.github.com/repos/$repo/releases/latest" \
-             | jq -r '.tag_name // empty' || true)"
+    if [ -n "${pin_major[$pkg]:-}" ]; then
+        tag="$(curl -sf "${auth[@]}" \
+                 "https://api.github.com/repos/$repo/releases?per_page=100" \
+                 | jq -r --arg m "${pin_major[$pkg]}." \
+                     '[.[] | select(.prerelease|not) | .tag_name
+                       | select(ltrimstr("v") | startswith($m))][0] // empty' || true)"
+    else
+        tag="$(curl -sf "${auth[@]}" \
+                 "https://api.github.com/repos/$repo/releases/latest" \
+                 | jq -r '.tag_name // empty' || true)"
+    fi
     [ -n "$tag" ] || continue
     new="${tag#v}"
     # Only plain numeric versions; anything else needs a human.
