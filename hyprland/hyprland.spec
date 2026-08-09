@@ -40,6 +40,7 @@ hyprdeps = {
     "pkgconfig(hyprwire)",
     "pkgconfig(libdisplay-info)",
     "pkgconfig(libdrm)",
+    "pkgconfig(libeis-1.0)",
     "pkgconfig(lcms2)",
     "pkgconfig(libinput) >= 1.28",
     "pkgconfig(libliftoff)",
