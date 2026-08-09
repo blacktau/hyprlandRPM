@@ -55,12 +55,12 @@ jobs:
           # Anything not listed runs in the final "independent" tier.
 
           tier0=(lua5.5 hyprwayland-scanner hyprutils hyprlang hyprland-protocols)
-          tier1=(hyprcursor hyprgraphics aquamarine glaze)
-          tier2=(hyprland hyprland-qt-support astal-io)
+          tier1=(hyprcursor hyprgraphics aquamarine glaze hyprwire)
+          tier2=(hyprland hyprland-qt-support astal-io hyprtoolkit)
           tier3=(hyprland-plugins xdg-desktop-portal-hyprland hyprland-qtutils
                  hyprland-contrib hyprqt6engine astal astal-libs)
-          tier4=(hyprdim hyprwire hyprland-autoname-workspaces hyprpwcenter
-                 hyprtoolkit astal-gtk4 astal-gjs astal-lua)
+          tier4=(hyprdim hyprland-autoname-workspaces hyprpwcenter
+                 astal-gtk4 astal-gjs astal-lua)
 
           # Final tier: everything else (independent tools)
           all_known=("${tier0[@]}" "${tier1[@]}" "${tier2[@]}" "${tier3[@]}" "${tier4[@]}")

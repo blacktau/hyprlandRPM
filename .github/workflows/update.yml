@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # scripts/update-tagged.sh dispatches mass-rebuild.yml when a core
+      # library moves (soname bumps strand every dependent until rebuilt).
+      actions: write
     container:
       image: 'registry.fedoraproject.org/fedora-minimal:latest'
 
@@ -25,6 +28,7 @@ jobs:
         env:
           COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
           COPR_CONFIG: ${{ secrets.COPR_CONFIG }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --local user.name "github-actions[bot]"
@@ -37,3 +41,5 @@ jobs:
             chmod 600 ~/.config/copr
           fi
           find -name "update.sh" -execdir {} \;
+          # Everything without its own update.sh: plain tagged releases.
+          scripts/update-tagged.sh
