@@ -10,21 +10,23 @@ Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 ExcludeArch:    %{ix86}
 
 BuildRequires:  cmake
-BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  systemd-rpm-macros
 
-BuildRequires:  cmake(Qt6Quick)
-BuildRequires:  cmake(Qt6QuickControls2)
-BuildRequires:  cmake(Qt6Widgets)
+BuildRequires:  pkgconfig(hyprgraphics)
+BuildRequires:  pkgconfig(hyprlang)
+BuildRequires:  pkgconfig(hyprtoolkit)
 BuildRequires:  pkgconfig(hyprutils)
-BuildRequires:  pkgconfig(polkit-agent-1)
-BuildRequires:  pkgconfig(polkit-qt6-1)
+BuildRequires:  pkgconfig(libdrm)
+BuildRequires:  pkgconfig(pixman-1)
+BuildRequires:  pkgconfig(sdbus-c++) >= 2
 
-Requires:       hyprland-qt-support%{?_isa}
+# 0.2.0 dropped Qt/QML for hyprtoolkit and execs polkit-agent-helper-1 at
+# runtime instead of linking polkit-qt6.
+Requires:       polkit
 
 %description
-A simple polkit authentication agent for Hyprland, written in QT/QML.
+A simple polkit authentication agent for Hyprland, built on hyprtoolkit.
 
 %prep
 %autosetup -p1

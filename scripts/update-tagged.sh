@@ -79,6 +79,14 @@ for spec in */*.spec astal/*/*.spec; do
     [ "$ec" = 12 ] || continue   # 12 = upstream newer
 
     sed -i "/^Version:/s/$cur/$new/" "$spec"
+    # Upstream can change whether the tag carries a leading `v` (hellwal went
+    # v1.0.7 -> 1.0.8); Source: hardcodes one or the other, so a mismatch is a
+    # 404 at SRPM time. Keep the Source tag matching the real tag.
+    if [ "$tag" = "$new" ]; then
+        sed -i '/^Source/s#/archive/v%{version}/#/archive/%{version}/#' "$spec"
+    else
+        sed -i '/^Source/s#/archive/%{version}/#/archive/v%{version}/#' "$spec"
+    fi
     git commit -qm "$pkg: bump to $new" "$spec"
     echo ">>> $pkg: $cur -> $new"
     bumped+=("$pkg")
