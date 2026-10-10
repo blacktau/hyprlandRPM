@@ -26,4 +26,5 @@ esac
 git diff --quiet || \
 { perl -pe 's/(?<=bumpver\s)(\d+)/$1 + 1/ge' -i $SPEC && \
 git commit -am "up rev hyprland-contrib-${newTag}+${newCommit:0:7}" && \
-git push; }
+git push && \
+copr-cli build-package --name hyprland-contrib --nowait blacktau/hyprland; }
