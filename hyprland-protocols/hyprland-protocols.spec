@@ -9,6 +9,7 @@ URL:            https://github.com/hyprwm/hyprland-protocols
 Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
+BuildRequires:  gcc
 
 %description
 %{summary}.
