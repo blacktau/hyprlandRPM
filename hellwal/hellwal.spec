@@ -1,11 +1,11 @@
 Name:           hellwal
-Version:        1.0.8
+Version:        1.0.9
 Release:        %autorelease
 Summary:        Pywal-like color palette generator, but faster and in C
 
 License:        MIT
 URL:            https://github.com/danihek/hellwal
-Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 Patch:          hellwal.patch
 
 BuildRequires:  gcc
