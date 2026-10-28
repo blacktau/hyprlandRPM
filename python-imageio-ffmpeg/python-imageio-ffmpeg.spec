@@ -1,5 +1,5 @@
 Name:           python-imageio-ffmpeg
-Version:        0.6.0
+Version:        0.7.0
 Release:        %autorelease -b4
 Summary:        FFMPEG wrapper for Python
 
