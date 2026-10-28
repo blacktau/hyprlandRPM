@@ -23,23 +23,12 @@ Hyprland core + ecosystem pieces not in Fedora main, or where Fedora ships too o
 * **[hyprland](https://wiki.hyprland.org/)** – A highly customizable dynamic tiling Wayland compositor.
 * **[xdg-desktop-portal-hyprland](https://wiki.hyprland.org/Useful-Utilities/Hyprland-desktop-portal/)** – xdg-desktop-portal backend for hyprland.
 * **hyprland-git** – Hyprland git snapshots.
-* **[hyprland-contrib](https://github.com/hyprwm/contrib)** – Community scripts and utilities for Hypr projects.
-* **[hyprland-plugins](https://github.com/hyprwm/hyprland-plugins)** – Official plugins for hyprland.
-* **hyprland-plugins-git** – Plugins for hyprland-git.
-* **[hyprpicker](https://github.com/hyprwm/hyprpicker)** – wlroots-compatible Wayland color picker.
 * **[hypridle](https://github.com/hyprwm/hypridle)** – Hyprland's idle daemon.
 * **[hyprlock](https://github.com/hyprwm/hyprlock)** – Hyprland's GPU-accelerated screen locker.
-* **[hyprsunset](https://github.com/hyprwm/hyprsunset)** – Blue-light filter for Hyprland.
 * **[hyprpolkitagent](https://github.com/hyprwm/hyprpolkitagent)** – Polkit auth agent for Hyprland.
-* **[hyprsysteminfo](https://github.com/hyprwm/hyprsysteminfo)** – System info display app.
-* **[hyprland-autoname-workspaces](https://github.com/hyprland-community/hyprland-autoname-workspaces)** – Auto-rename workspaces with app icons.
-* **[nwg-clipman](https://github.com/nwg-piotr/nwg-clipman)** – GTK3 GUI for cliphist.
-* **[hyprnome](https://github.com/donovanglover/hyprnome)** – GNOME-like workspace switching.
-* **[hyprdim](https://github.com/donovanglover/hyprdim)** – Auto-dim inactive windows.
 * **[uwsm](https://github.com/Vladimir-csp/uwsm)** – Universal Wayland Session Manager.
 * **[qt6ct-kde](https://github.com/ilya-fedin/qt6ct)** – Qt6 config util, patched for KDE integration.
-* **[hyprqt6engine](https://github.com/hyprwm/hyprqt6engine)** – Qt6 theme provider for Hyprland.
-* **hyprutils, hyprlang, hyprcursor, hyprgraphics, aquamarine, hyprwayland-scanner, hyprland-qt-support, hyprland-qtutils, hyprtoolkit, hyprwire, glaze, hellwal, hyprpwcenter, python-imageio-ffmpeg, python-screeninfo** – libs and helpers needed by the above (Fedora ships older versions).
+* **hyprutils, hyprlang, hyprcursor, hyprgraphics, aquamarine, hyprwayland-scanner, hyprland-qt-support, hyprland-qtutils, hyprtoolkit, hyprwire, glaze, lua5.5** – libs and helpers needed by the above (Fedora ships older versions).
 
 ## Prerequisites — install from Fedora main
 
@@ -77,8 +66,6 @@ go install go.senan.xyz/cliphist@latest
 ```
 
 Or grab a release binary: https://github.com/sentriz/cliphist/releases
-
-The `nwg-clipman` GUI (built here) works against an upstream-installed `cliphist` binary.
 
 ## Issues
 

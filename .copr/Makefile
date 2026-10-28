@@ -13,9 +13,6 @@ goprep:
 	go env -w GOSUMDB=sum.golang.org
 	bash bundle_go_deps_for_rpm.sh $(specfile)
 
-hyprland-plugins-git.spec:
-	sed -e '/%global build_for/s/release/git/' hyprland-plugins.spec > $(specfile)
-
 hyprland%spec:
 	sed -e "/Name:/s/hyprland-git/$(basename $(specfile))/" hyprland-git.spec > $(specfile)
     ifneq ($(findstring git,$(specfile)),git)

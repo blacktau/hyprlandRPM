@@ -4,9 +4,8 @@ set -euo pipefail
 # Bump plain tagged-release packages to their latest upstream GitHub release.
 #
 # Covers every package whose spec carries a literal `Version:` and a GitHub
-# `URL:`. Packages with their own update.sh (the git-snapshot ones: hyprland,
-# hyprland-plugins, hyprland-contrib) are skipped -- those have bespoke
-# commit/bumpver logic and ordering rules.
+# `URL:`. Packages with their own update.sh (hyprland) are skipped -- those
+# have bespoke release-detection logic.
 #
 # Deliberately does NOT touch pinned sonames in %files (e.g.
 # `%{_libdir}/libhyprutils.so.13`). Those are pinned so an upstream soname bump

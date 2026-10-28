@@ -33,8 +33,8 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # hyprland/update.sh drives an ordered COPR rebuild (hyprland ->
-          # hyprland-plugins) via copr-cli when this token is present.
+          # Updaters trigger their own COPR builds via copr-cli when this
+          # token is present (nothing rebuilds on push).
           if [ -n "${COPR_CONFIG:-}" ]; then
             mkdir -p ~/.config
             printf '%s\n' "$COPR_CONFIG" > ~/.config/copr

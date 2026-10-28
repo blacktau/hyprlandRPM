@@ -33,23 +33,12 @@ HYPRLAND_CORE=(
   hyprland
   hypridle
   hyprlock
-  hyprsunset
-  hyprpicker
   hyprpolkitagent
-  hyprsysteminfo
-  hyprland-plugins
-  hyprland-contrib
-  hyprland-autoname-workspaces
-  hyprdim
-  hyprnome
   hyprtoolkit
   hyprwire
-  hyprqt6engine
   hyprland-qt-support
   hyprland-qtutils
-  hyprpwcenter
   xdg-desktop-portal-hyprland
-  nwg-clipman
   awww
   uwsm
 )
