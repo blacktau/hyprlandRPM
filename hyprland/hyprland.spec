@@ -6,7 +6,6 @@ Release:        %autorelease
 Summary:        Dynamic tiling Wayland compositor that doesn't sacrifice on its looks
 
 # hyprland: BSD-3-Clause
-# subprojects/hyprland-protocols: BSD-3-Clause
 # subproject/udis86: BSD-2-Clause
 # protocols/ext-workspace-unstable-v1.xml: HPND-sell-variant
 # protocols/wlr-foreign-toplevel-management-unstable-v1.xml: HPND-sell-variant
@@ -34,6 +33,7 @@ hyprdeps = {
     "pkgconfig(hwdata)",
     "pkgconfig(hyprcursor)",
     "pkgconfig(hyprgraphics)",
+    "pkgconfig(hyprland-protocols) >= 0.8.0",
     "pkgconfig(hyprlang)",
     "pkgconfig(hyprutils)",
     "pkgconfig(hyprwayland-scanner)",
@@ -42,7 +42,8 @@ hyprdeps = {
     "pkgconfig(libdrm)",
     "pkgconfig(libeis-1.0)",
     "pkgconfig(lcms2)",
-    "pkgconfig(libinput) >= 1.28",
+    "pkgconfig(libcanberra)",
+    "pkgconfig(libinput) >= 1.29",
     "pkgconfig(libliftoff)",
     "pkgconfig(libseat)",
     "pkgconfig(lua5.5)",
@@ -53,11 +54,12 @@ hyprdeps = {
     "pkgconfig(pixman-1)",
     "pkgconfig(readline)",
     "pkgconfig(re2)",
+    "pkgconfig(sdbus-c++) >= 2.0.0",
     "pkgconfig(systemd)",
     "pkgconfig(tomlplusplus)",
     "pkgconfig(uuid)",
     "pkgconfig(wayland-client)",
-    "pkgconfig(wayland-protocols) >= 1.45",
+    "pkgconfig(wayland-protocols) >= 1.49",
     "pkgconfig(wayland-scanner)",
     "pkgconfig(wayland-server)",
     "pkgconfig(xcb-composite)",
@@ -112,11 +114,11 @@ Provides:       bundled(libxkbcommon) = %{libxkbcommon_version}
 %endif
 
 Requires:       xorg-x11-server-Xwayland%{?_isa}
-Requires:       aquamarine%{?_isa} >= 0.9.3
+Requires:       aquamarine%{?_isa} >= 0.15.0
 Requires:       hyprcursor%{?_isa} >= 0.1.13
 Requires:       hyprgraphics%{?_isa} >= 0.5.1
 Requires:       hyprlang%{?_isa} >= 0.6.7
-Requires:       hyprutils%{?_isa} >= 0.14.0
+Requires:       hyprutils%{?_isa} >= 0.14.3
 
 %{lua:do
 if string.match(rpm.expand('%{name}'), '%-git$') then
@@ -193,7 +195,6 @@ mkdir -p subprojects/libxkbcommon
 tar -xf %{SOURCE5} -C subprojects/libxkbcommon --strip=1
 %endif
 
-cp -p subprojects/hyprland-protocols/LICENSE LICENSE-hyprland-protocols
 cp -p subprojects/udis86/LICENSE LICENSE-udis86
 
 sed -i \
@@ -237,6 +238,11 @@ install -Dpm644 %{SOURCE4} -t %{buildroot}%{_rpmconfigdir}/macros.d
 # fix absolute symlink: /usr/bin/hyprland -> /usr/bin/Hyprland
 ln -sf Hyprland %{buildroot}%{_bindir}/hyprland
 
+# upstream installs the user unit to CMAKE_INSTALL_LIBDIR (lib64 on Fedora),
+# where systemd never looks for user units
+mkdir -p %{buildroot}%{_userunitdir}
+mv %{buildroot}%{_libdir}/systemd/user/hyprland-session.target %{buildroot}%{_userunitdir}/
+
 # hyprland public headers transitively include <lua.h>, but upstream
 # hyprland.pc does not declare a lua dep. Patch it so downstream
 # plugin builds (and any other consumer) pick up the lua5.5 include
@@ -246,7 +252,7 @@ sed -i 's/^\(Requires: .*\)$/\1, lua5.5/' \
 
 
 %files
-%license LICENSE LICENSE-udis86 LICENSE-hyprland-protocols
+%license LICENSE LICENSE-udis86
 %{_bindir}/[Hh]yprland
 %{_bindir}/hyprctl
 %{_bindir}/hyprpm
@@ -254,6 +260,7 @@ sed -i 's/^\(Requires: .*\)$/\1, lua5.5/' \
 %{_datadir}/hypr/
 %{_datadir}/wayland-sessions/hyprland.desktop
 %{_datadir}/xdg-desktop-portal/hyprland-portals.conf
+%{_userunitdir}/hyprland-session.target
 %{_mandir}/man1/hyprctl.1*
 %{_mandir}/man1/Hyprland.1*
 %{bash_completions_dir}/hypr*
