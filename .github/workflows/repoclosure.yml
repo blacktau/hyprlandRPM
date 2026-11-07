@@ -16,6 +16,7 @@ jobs:
       matrix:
         version:
           - 44
+          - 45
     container:
       image: registry.fedoraproject.org/fedora:${{ matrix.version }}
     steps:
